@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "title": "Frontend Developer",
+    "location": "Lokanthali, Kathmandu",
+    "salary": "Rs 50,000 per month",
+    "applications": 45,
+    "workingDays": "Sunday - Friday",
+    "workingHours": "9:00 am - 5:00 pm",
+    "description": "We are seeking a talented Frontend Developer to join our growing team. You will be responsible for building and maintaining user-facing features, ensuring optimal performance and user experience across all devices.",
+    "responsibilities": [
+      "Develop new user-facing features using React.js",
+      "Build reusable components and front-end libraries",
+      "Translate designs and wireframes into high-quality code"
+    ],
+    "requirements": [
+      "Fluent in ReactJs",
+      "Redux Toolkit",
+      "TypeScript",
+      "3 Years of Professional Experience"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Full Stack Developer",
+    "location": "Patan, Lalitpur",
+    "salary": "Rs 75,000 per month",
+    "applications": 32,
+    "workingDays": "Monday - Friday",
+    "workingHours": "10:00 am - 6:00 pm",
+    "description": "Join our dynamic team as a Full Stack Developer. You will work on both frontend and backend technologies, building scalable web applications and APIs that serve thousands of users.",
+    "responsibilities": [
+      "Design and develop full-stack web applications",
+      "Create and maintain RESTful APIs",
+      "Collaborate with cross-functional teams"
+    ],
+    "requirements": [
+      "Proficient in React and Node.js",
+      "Experience with MongoDB or PostgreSQL",
+      "Strong problem-solving skills",
+      "4+ Years of Professional Experience"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "UI/UX Designer",
+    "location": "Thamel, Kathmandu",
+    "salary": "Rs 60,000 per month",
+    "applications": 28,
+    "workingDays": "Sunday - Friday",
+    "workingHours": "9:30 am - 5:30 pm",
+    "description": "We are looking for a creative UI/UX Designer to craft beautiful and intuitive user experiences. You will work closely with developers and product managers to bring ideas to life.",
+    "responsibilities": [
+      "Create user-centered designs and prototypes",
+      "Conduct user research and usability testing",
+      "Develop design systems and style guides"
+    ],
+    "requirements": [
+      "Proficient in Figma and Adobe Creative Suite",
+      "Strong portfolio demonstrating UX process",
+      "Understanding of responsive design",
+      "2+ Years of Design Experience"
+    ]
+  }
+]
