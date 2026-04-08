@@ -23,25 +23,34 @@ export const Dashboard = () => {
 
             {/* Search Section */}
             <div className="max-w-7xl mx-auto px-4 py-6">
-                <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex flex-col md:flex-row gap-4 items-center">
 
                     {/* Job Title Search */}
                     <input
                         type="text"
                         placeholder="Search Job Title..."
                         className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-            focus:ring-2 focus:ring-red-500 outline-none 
-            bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                 focus:ring-2 focus:ring-red-500 outline-none 
+                 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     />
 
                     {/* Location Search */}
                     <input
                         type="text"
                         placeholder="Location..."
-                        className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-            focus:ring-2 focus:ring-red-500 outline-none 
-            bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                        className="w-96 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                 focus:ring-2 focus:ring-red-500 outline-none 
+                 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     />
+
+                    {/* Search Button */}
+                    <button
+                        type="button"
+                        className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg shadow-md
+                 transition"
+                    >
+                        Search
+                    </button>
 
                 </div>
             </div>

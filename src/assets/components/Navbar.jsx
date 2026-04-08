@@ -22,19 +22,19 @@ export const Navbar = () => {
                     {/* MIDDLE: Menu (Desktop) */}
                     <div className="hidden md:flex items-center space-x-8">
                         <Link
-                            to="#"
+                            to="/"
                             className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
                         >
                             Jobs
                         </Link>
                         <Link
-                            to="#"
+                            to="/appliedjobs"
                             className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
                         >
                             Applied Jobs
                         </Link>
                         <Link
-                            to="#"
+                            to="/companies"
                             className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
                         >
                             Companies
