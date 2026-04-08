@@ -10,7 +10,7 @@ const signInUser = (email, password) => {
 }
 
 const signInWithGoogle = async () => {
-    const provider = GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider)
     return result;
 }

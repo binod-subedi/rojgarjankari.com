@@ -1,14 +1,12 @@
 import { useState } from "react"
 import { Link, Navigate } from "react-router-dom"
-import { signInUser } from '../configs/auth'
+import { signInUser, signInWithGoogle } from '../configs/auth'
 import { useAuth } from "../contexts/AuthContext"
 import { setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth"
 import { auth } from '../configs/firebase'
 
 export const Login = () => {
-
     const { isLoggedIn } = useAuth();
-
 
     if (isLoggedIn) {
         return <Navigate to='/' />
@@ -40,7 +38,7 @@ export const Login = () => {
             }
         }
         catch (err) {
-            console.error("Login Error: ", err.message)
+            console.error(err)
         }
 
 
@@ -53,14 +51,13 @@ export const Login = () => {
     }
 
     const handleGoogleSignIn = () => {
-        console.log("Coming Soon!")
+        signInWithGoogle();
     }
 
     return (
         <div className="min-h-screen transition-colors duration-300">
-
             {/* Main Container */}
-            <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+            <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-linear-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
 
                 {/* Login Card */}
                 <div className="w-full max-w-md">
@@ -133,7 +130,7 @@ export const Login = () => {
                                     </label>
 
                                     <Link
-                                        to="/passwordreset"
+                                        to=""
                                         className="text-sm text-red-600 hover:text-red-500 dark:text-red-400"
                                     >
                                         Forgot password?

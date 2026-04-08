@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "title": "Frontend Developer",
+    "company": "Google",
+    "location": "Remote",
+    "description": "Build modern UI using React."
+  },
+  {
+    "id": 2,
+    "title": "Backend Developer",
+    "company": "Amazon",
+    "location": "USA",
+    "description": "Work with Node.js and AWS."
+  },
+  {
+    "id": 3,
+    "title": "Full Stack Developer",
+    "company": "Microsoft",
+    "location": "Canada",
+    "description": "Handle both frontend and backend."
+  },
+  {
+    "id": 4,
+    "title": "UI Developer",
+    "company": "Meta",
+    "location": "Remote",
+    "description": "Design responsive user interfaces."
+  },
+  {
+    "id": 5,
+    "title": "Software Engineer",
+    "company": "Apple",
+    "location": "USA",
+    "description": "Develop scalable applications."
+  },
+  {
+    "id": 6,
+    "title": "Frontend Engineer",
+    "company": "Netflix",
+    "location": "Remote",
+    "description": "Implement UI components with React."
+  },
+  {
+    "id": 7,
+    "title": "Backend Engineer",
+    "company": "Spotify",
+    "location": "Sweden",
+    "description": "Build APIs and microservices."
+  },
+  {
+    "id": 8,
+    "title": "Full Stack Engineer",
+    "company": "Airbnb",
+    "location": "USA",
+    "description": "Work across the entire tech stack."
+  },
+  {
+    "id": 9,
+    "title": "Web Developer",
+    "company": "Shopify",
+    "location": "Canada",
+    "description": "Create and maintain web applications."
+  },
+  {
+    "id": 10,
+    "title": "React Developer",
+    "company": "Uber",
+    "location": "Remote",
+    "description": "Develop dynamic frontends using React."
+  },
+  {
+    "id": 11,
+    "title": "Node.js Developer",
+    "company": "Lyft",
+    "location": "USA",
+    "description": "Build backend services with Node.js."
+  },
+  {
+    "id": 12,
+    "title": "Software Developer",
+    "company": "Intel",
+    "location": "USA",
+    "description": "Write efficient and maintainable code."
+  },
+  {
+    "id": 13,
+    "title": "Frontend Specialist",
+    "company": "Adobe",
+    "location": "Remote",
+    "description": "Focus on UI/UX improvements."
+  },
+  {
+    "id": 14,
+    "title": "Backend Specialist",
+    "company": "Oracle",
+    "location": "USA",
+    "description": "Design robust backend systems."
+  },
+  {
+    "id": 15,
+    "title": "Full Stack Specialist",
+    "company": "SAP",
+    "location": "Germany",
+    "description": "Manage end-to-end development."
+  },
+  {
+    "id": 16,
+    "title": "JavaScript Developer",
+    "company": "Twitter",
+    "location": "Remote",
+    "description": "Develop apps using JavaScript."
+  },
+  {
+    "id": 17,
+    "title": "Python Developer",
+    "company": "Dropbox",
+    "location": "USA",
+    "description": "Build backend systems with Python."
+  },
+  {
+    "id": 18,
+    "title": "DevOps Engineer",
+    "company": "Atlassian",
+    "location": "Australia",
+    "description": "Automate deployment pipelines."
+  },
+  {
+    "id": 19,
+    "title": "Cloud Engineer",
+    "company": "IBM",
+    "location": "USA",
+    "description": "Work with cloud infrastructure."
+  },
+  {
+    "id": 20,
+    "title": "Mobile Developer",
+    "company": "Snapchat",
+    "location": "USA",
+    "description": "Build mobile applications."
+  },
+  {
+    "id": 21,
+    "title": "iOS Developer",
+    "company": "TikTok",
+    "location": "Remote",
+    "description": "Develop iOS applications."
+  },
+  {
+    "id": 22,
+    "title": "Android Developer",
+    "company": "Samsung",
+    "location": "South Korea",
+    "description": "Build Android apps."
+  },
+  {
+    "id": 23,
+    "title": "QA Engineer",
+    "company": "Salesforce",
+    "location": "USA",
+    "description": "Ensure software quality."
+  },
+  {
+    "id": 24,
+    "title": "Data Engineer",
+    "company": "LinkedIn",
+    "location": "USA",
+    "description": "Handle large-scale data pipelines."
+  },
+  {
+    "id": 25,
+    "title": "Machine Learning Engineer",
+    "company": "OpenAI",
+    "location": "USA",
+    "description": "Build ML models and systems."
+  },
+  {
+    "id": 26,
+    "title": "AI Engineer",
+    "company": "NVIDIA",
+    "location": "USA",
+    "description": "Develop AI-driven solutions."
+  },
+  {
+    "id": 27,
+    "title": "Game Developer",
+    "company": "Epic Games",
+    "location": "USA",
+    "description": "Create interactive games."
+  },
+  {
+    "id": 28,
+    "title": "Systems Engineer",
+    "company": "Cisco",
+    "location": "USA",
+    "description": "Design system architecture."
+  },
+  {
+    "id": 29,
+    "title": "Security Engineer",
+    "company": "Cloudflare",
+    "location": "USA",
+    "description": "Protect systems and networks."
+  },
+  {
+    "id": 30,
+    "title": "Blockchain Developer",
+    "company": "Coinbase",
+    "location": "Remote",
+    "description": "Develop blockchain applications."
+  },
+  {
+    "id": 31,
+    "title": "Frontend Architect",
+    "company": "Slack",
+    "location": "USA",
+    "description": "Design frontend architecture."
+  },
+  {
+    "id": 32,
+    "title": "Backend Architect",
+    "company": "Stripe",
+    "location": "USA",
+    "description": "Architect backend systems."
+  },
+  {
+    "id": 33,
+    "title": "Technical Lead",
+    "company": "Zoom",
+    "location": "USA",
+    "description": "Lead development teams."
+  },
+  {
+    "id": 34,
+    "title": "Software Consultant",
+    "company": "Accenture",
+    "location": "Global",
+    "description": "Advise on software solutions."
+  },
+  {
+    "id": 35,
+    "title": "Web Engineer",
+    "company": "Pinterest",
+    "location": "USA",
+    "description": "Build web-based platforms."
+  },
+  {
+    "id": 36,
+    "title": "Platform Engineer",
+    "company": "Red Hat",
+    "location": "USA",
+    "description": "Develop platform services."
+  },
+  {
+    "id": 37,
+    "title": "Integration Engineer",
+    "company": "Dell",
+    "location": "USA",
+    "description": "Integrate various systems."
+  },
+  {
+    "id": 38,
+    "title": "Site Reliability Engineer",
+    "company": "Google Cloud",
+    "location": "Remote",
+    "description": "Ensure system reliability."
+  },
+  {
+    "id": 39,
+    "title": "Automation Engineer",
+    "company": "Siemens",
+    "location": "Germany",
+    "description": "Automate testing and processes."
+  },
+  {
+    "id": 40,
+    "title": "Embedded Systems Engineer",
+    "company": "Qualcomm",
+    "location": "USA",
+    "description": "Work on embedded devices."
+  },
+  {
+    "id": 41,
+    "title": "VR Developer",
+    "company": "Oculus",
+    "location": "USA",
+    "description": "Build virtual reality apps."
+  },
+  {
+    "id": 42,
+    "title": "AR Developer",
+    "company": "Magic Leap",
+    "location": "USA",
+    "description": "Create augmented reality apps."
+  },
+  {
+    "id": 43,
+    "title": "Data Scientist",
+    "company": "Palantir",
+    "location": "USA",
+    "description": "Analyze and model data."
+  },
+  {
+    "id": 44,
+    "title": "BI Developer",
+    "company": "Tableau",
+    "location": "USA",
+    "description": "Develop business intelligence tools."
+  },
+  {
+    "id": 45,
+    "title": "API Developer",
+    "company": "Twilio",
+    "location": "USA",
+    "description": "Design and build APIs."
+  },
+  {
+    "id": 46,
+    "title": "CRM Developer",
+    "company": "HubSpot",
+    "location": "USA",
+    "description": "Customize CRM systems."
+  },
+  {
+    "id": 47,
+    "title": "E-commerce Developer",
+    "company": "eBay",
+    "location": "USA",
+    "description": "Develop online shopping platforms."
+  },
+  {
+    "id": 48,
+    "title": "CMS Developer",
+    "company": "WordPress",
+    "location": "Remote",
+    "description": "Build CMS-based websites."
+  },
+  {
+    "id": 49,
+    "title": "Technical Support Engineer",
+    "company": "HP",
+    "location": "USA",
+    "description": "Provide technical assistance."
+  },
+  {
+    "id": 50,
+    "title": "IT Specialist",
+    "company": "Capgemini",
+    "location": "Global",
+    "description": "Maintain IT systems."
+  }
+]

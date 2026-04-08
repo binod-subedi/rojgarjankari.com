@@ -1,1 +1,2 @@
-export { PasswordReset } from './PasswordReset'
+export { Navbar } from './Navbar'
+export { JobDetail } from './JobDetail'
