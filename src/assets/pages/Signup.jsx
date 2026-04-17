@@ -26,10 +26,14 @@ export const Signup = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        try {
-            await createUser(formData.email, formData.password)
-        } catch (err) {
-            console.error(err)
+        if (formData.password == formData.confirmPassword) {
+            try {
+                await createUser(formData.email, formData.password)
+            } catch (err) {
+                console.error(err)
+            }
+        } else {
+            console.log("Password doesn't match.")
         }
     }
 
