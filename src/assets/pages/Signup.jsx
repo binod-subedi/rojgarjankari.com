@@ -2,6 +2,8 @@ import { useState } from "react"
 import { Link, Navigate } from "react-router-dom"
 import { createUser, signInWithGoogle } from '../configs/auth'
 import { useAuth } from "../contexts/AuthContext"
+import { EmployerSignup } from '../pages'
+import { saveUserToFireStore } from "../configs/firestore"
 
 export const Signup = () => {
 
@@ -18,52 +20,66 @@ export const Signup = () => {
         confirmPassword: '',
         agreeToTerms: false,
     })
+
+    const [isEmployer, setIsEmployer] = useState(false)
+    const handleEmployerSignup = () => {
+        setIsEmployer(true)
+    }
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prevFormData => ({
             ...prevFormData, [name]: type === 'checkbox' ? checked : value
         }))
     }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (formData.password == formData.confirmPassword) {
+        if (formData.password === formData.confirmPassword) {
             try {
-                await createUser(formData.email, formData.password)
+                const userCredentials = await createUser(formData.email, formData.password)
+                const user = userCredentials.user;
+
+                // Saving additional user information to firestore
+                await saveUserToFireStore(user.uid, formData.fullName, formData.email)
             } catch (err) {
                 console.error(err)
             }
         } else {
-            console.log("Password doesn't match.")
+            console.log("Password and confirm pass doesn't match.")
         }
     }
 
     const handleGoogleSignUp = () => {
         signInWithGoogle()
     }
-
     return (
-        <div className="min-h-screen bg-gray-50">
+        <>
+            {isEmployer ? <EmployerSignup setIsEmployer={setIsEmployer} /> : <div className="min-h-screen bg-linear-to-br from-emerald-50 to-white flex items-center justify-center px-4 py-12">
+                <button onClick={handleEmployerSignup} className="absolute top-0 right-0 mt-4 mr-4 px-4 py-2 text-emerald-500 cursor-pointer
+                   after:content-[''] after:block after:w-0 after:h-0.5 after:bg-emerald-500 after:transition-all
+                   after:duration-300 hover:after:w-full">
+                    Employer Signup
+                </button>
+                <div className="w-full max-w-md relative">
+                    {/* Sign Up as Employer button */}
 
-            {/* Main Container */}
-            <div className="min-h-screen flex items-center justify-center px-4 py-12">
-
-                {/* Signup Card */}
-                <div className="w-full max-w-md">
-                    <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+                    {/* Signup Card */}
+                    <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
 
                         {/* Header */}
-                        <div className="px-8 pt-10 pb-8 bg-gray-100">
+                        <div className="px-8 pt-10 pb-8 bg-emerald-600 rounded-t-lg shadow-md">
                             <div className="flex justify-center mb-4">
-                                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md">
-                                    <svg className="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow">
+                                    <svg className="w-8 h-8 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
                                 </div>
                             </div>
-                            <h2 className="text-3xl font-bold text-center text-gray-900 mb-2">
+                            <h2 className="text-3xl font-bold text-center text-white mb-2">
                                 Create Account
                             </h2>
-                            <p className="text-center text-gray-600">
+                            <p className="text-center text-emerald-100">
                                 Join us today and get started
                             </p>
                         </div>
@@ -72,64 +88,58 @@ export const Signup = () => {
                         <div className="px-8 py-10">
                             <form onSubmit={handleSubmit} className="space-y-5">
 
-                                {/* Full Name */}
                                 <input
                                     type="text"
                                     name="fullName"
                                     value={formData.fullName}
                                     onChange={handleChange}
                                     placeholder="Full Name"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
                                 />
 
-                                {/* Email */}
                                 <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="Email Address"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
                                 />
 
-                                {/* Password */}
                                 <input
                                     type="password"
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="Password"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
                                 />
 
-                                {/* Confirm Password */}
                                 <input
                                     type="password"
                                     name="confirmPassword"
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     placeholder="Confirm Password"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
                                 />
 
-                                {/* Terms */}
                                 <label className="flex items-start text-sm text-gray-600">
                                     <input
                                         type="checkbox"
                                         name="agreeToTerms"
                                         checked={formData.agreeToTerms}
                                         onChange={handleChange}
-                                        className="mr-2 mt-1 accent-red-600"
+                                        className="mr-2 mt-1 accent-emerald-500"
                                         required
                                     />
                                     I agree to the{" "}
-                                    <span className="text-red-600 ml-1 cursor-pointer">Terms and Conditions.</span>
+                                    <span className="text-emerald-500 ml-1 cursor-pointer">Terms and Conditions.</span>
                                 </label>
 
-                                {/* Submit */}
                                 <button
                                     type="submit"
-                                    className="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg shadow-sm cursor-pointer"
+                                    className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg shadow-sm cursor-pointer transition"
                                 >
                                     Create Account
                                 </button>
@@ -142,10 +152,11 @@ export const Signup = () => {
                                     </span>
                                 </div>
 
-                                {/* Google Only */}
+                                {/* Google Sign Up */}
                                 <button
                                     type="button"
-                                    className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer" onClick={handleGoogleSignUp}
+                                    className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
+                                    onClick={handleGoogleSignUp}
                                 >
                                     <svg className="w-5 h-5" viewBox="0 0 24 24">
                                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -162,10 +173,10 @@ export const Signup = () => {
                         </div>
 
                         {/* Footer */}
-                        <div className="px-8 py-6 bg-gray-50 border-t border-gray-200">
+                        <div className="px-8 py-6 bg-emerald-50 border-t border-gray-200">
                             <p className="text-center text-sm text-gray-600">
                                 Already have an account?{" "}
-                                <Link to="/login" className="text-red-600 hover:text-red-500">
+                                <Link to="/login" className="text-emerald-500 hover:text-emerald-400">
                                     Sign in
                                 </Link>
                             </p>
@@ -173,7 +184,8 @@ export const Signup = () => {
 
                     </div>
                 </div>
-            </div>
-        </div>
+            </div>}
+
+        </>
     )
 }

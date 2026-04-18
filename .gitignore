@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 src/assets/configs/firebase.jsx
+src/assets/configs/firestore.jsx
 
 # Editor directories and files
 .vscode/*
