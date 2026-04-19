@@ -3,8 +3,15 @@ import { Navbar } from "../components/Navbar";
 import { JobCard } from "../components/JobCard";
 import { JobDetail } from "../components";
 import jobsData from "../../Data/Data.json";
+import { useAuth } from "../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 export const Dashboard = () => {
+    const currentUser = useAuth();
+    if (currentUser.userData.role === 'employer') {
+        return <Navigate to='/employerdashboard' />
+    }
+
     const [selectedJob, setSelectedJob] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const jobsPerPage = 10;
@@ -16,7 +23,7 @@ export const Dashboard = () => {
     const totalPages = Math.ceil(jobsData.length / jobsPerPage);
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div className="min-h-screen bg-gray-50 transition-colors duration-300">
 
             {/* Navbar */}
             <Navbar />
@@ -29,24 +36,24 @@ export const Dashboard = () => {
                     <input
                         type="text"
                         placeholder="Search Job Title..."
-                        className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                 focus:ring-2 focus:ring-red-500 outline-none 
-                 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg 
+                 focus:ring-2 focus:ring-emerald-400 outline-none 
+                 bg-white text-gray-900"
                     />
 
                     {/* Location Search */}
                     <input
                         type="text"
                         placeholder="Location..."
-                        className="w-96 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                 focus:ring-2 focus:ring-red-500 outline-none 
-                 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                        className="w-96 px-4 py-3 border border-gray-300 rounded-lg 
+                 focus:ring-2 focus:ring-emerald-400 outline-none 
+                 bg-white text-gray-900"
                     />
 
                     {/* Search Button */}
                     <button
                         type="button"
-                        className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg shadow-md
+                        className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg shadow-md
                  transition"
                     >
                         Search
@@ -60,9 +67,9 @@ export const Dashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                     {/* LEFT: Job List */}
-                    <div className="lg:col-span-1 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-4">
+                    <div className="lg:col-span-1 bg-white rounded-xl shadow-md border border-gray-200 p-4">
 
-                        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">
                             Recommended Jobs
                         </h2>
 
@@ -82,7 +89,7 @@ export const Dashboard = () => {
                             <button
                                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                                 disabled={currentPage === 1}
-                                className="px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-50 cursor-pointer"
+                                className="px-3 py-1 rounded-lg bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer"
                             >
                                 Prev
                             </button>
@@ -92,8 +99,8 @@ export const Dashboard = () => {
                                     key={i}
                                     onClick={() => setCurrentPage(i + 1)}
                                     className={`px-3 py-1 rounded-lg cursor-pointer ${currentPage === i + 1
-                                        ? "bg-red-600 text-white"
-                                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+                                        ? "bg-emerald-500 text-white"
+                                        : "bg-gray-200 text-gray-700"
                                         }`}
                                 >
                                     {i + 1}
@@ -103,7 +110,7 @@ export const Dashboard = () => {
                             <button
                                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                                 disabled={currentPage === totalPages}
-                                className="px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-50 cursor-pointer"
+                                className="px-3 py-1 rounded-lg bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer"
                             >
                                 Next
                             </button>
@@ -112,12 +119,12 @@ export const Dashboard = () => {
                     </div>
 
                     {/* RIGHT: Job Detail */}
-                    <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-6">
+                    <div className="lg:col-span-2 bg-white rounded-xl shadow-md border border-gray-200 p-6">
 
                         {selectedJob ? (
                             <JobDetail job={selectedJob} />
                         ) : (
-                            <div className="h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            <div className="h-full flex items-center justify-center text-gray-500">
                                 Click a job to view details
                             </div>
                         )}

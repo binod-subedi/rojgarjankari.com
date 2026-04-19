@@ -4,3 +4,4 @@ export { Dashboard } from './Dashboard'
 export { AppliedJobs } from './AppliedJobs'
 export { Companies } from './Companies'
 export { EmployerSignup } from './EmployerSignup'
+export { EmployerDashboard } from './EmployerDashboard';

@@ -1,7 +1,8 @@
-import { onAuthStateChanged } from 'firebase/auth';
 import { createContext, useState, useEffect, useContext } from 'react'
+import { onAuthStateChanged } from 'firebase/auth';
+import { getDoc, doc } from 'firebase/firestore';
+import { auth, firestore } from '../configs/firebase'
 import Spinner from '../components/Spinner';
-import { auth } from '../configs/firebase'
 
 const AuthContext = createContext();
 
@@ -11,29 +12,43 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, initializeUser);
-        return unsubscribe;
-    }, [])
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                setCurrentUser(user);
 
-    const initializeUser = async (user) => {
-        if (user) {
-            setCurrentUser({ ...user });
-            setIsLoggedIn(true);
-        } else {
-            setCurrentUser(null)
-            setIsLoggedIn(false);
-        }
-        setLoading(false)
-    }
+                try {
+                    const userRef = doc(firestore, 'users', user.uid);
+                    const docSnap = await getDoc(userRef);
+
+                    if (docSnap.exists()) {
+                        setUserData(docSnap.data());
+                    } else {
+                        console.log("No such document.")
+                        setUserData(null);
+                    }
+                } catch (err) {
+                    console.error("Error fetching user", err)
+                    setUserData(null);
+                }
+            } else {
+                setCurrentUser(null)
+                setUserData(null);
+            }
+
+            setLoading(false)
+        });
+        return unsubscribe;
+    }, []);
 
     const value = {
         currentUser,
-        isLoggedIn,
-        loading
+        userData,
+        loading,
+        isLoggedIn: !!currentUser
     }
 
     return (

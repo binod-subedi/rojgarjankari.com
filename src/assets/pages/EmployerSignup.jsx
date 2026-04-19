@@ -1,5 +1,9 @@
 import { useState } from "react";
-// import { createEmployer } from "../configs/auth"; 
+import { Link, Navigate } from "react-router-dom"
+import { createUser } from "../configs/auth";
+import { useAuth } from '../contexts/AuthContext'
+import { saveEmployerToFireStore } from "../configs/firestore"
+
 export const EmployerSignup = ({ setIsEmployer }) => {
     const [formData, setFormData] = useState({
         fullName: '',
@@ -7,7 +11,6 @@ export const EmployerSignup = ({ setIsEmployer }) => {
         password: '',
         confirmPassword: '',
         companyName: '',
-        companyWebsite: '',
         agreeToTerms: false,
     });
 
@@ -22,7 +25,12 @@ export const EmployerSignup = ({ setIsEmployer }) => {
         e.preventDefault();
         if (formData.password === formData.confirmPassword) {
             try {
-                await createEmployer(formData.email, formData.password, formData.companyName, formData.companyWebsite);
+                const employerCredentials = await createUser(formData.email, formData.password);
+                const employer = employerCredentials.user;
+
+                // Saving additional user information to firestore
+                await saveEmployerToFireStore(employer.uid, formData.fullName, formData.email, formData.companyName);
+
             } catch (err) {
                 console.error("Employer signup error", err);
             }
@@ -129,6 +137,16 @@ export const EmployerSignup = ({ setIsEmployer }) => {
 
                         </form>
                     </div>
+                    {/* Footer */}
+                    <div className="px-8 py-6 bg-emerald-50 border-t border-gray-200">
+                        <p className="text-center text-sm text-gray-600">
+                            Already have an account?{" "}
+                            <Link to="/login" className="text-emerald-500 hover:text-emerald-400">
+                                Sign in
+                            </Link>
+                        </p>
+                    </div>
+
 
                 </div>
             </div>

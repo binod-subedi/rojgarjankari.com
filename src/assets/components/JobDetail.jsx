@@ -22,7 +22,7 @@ export const JobDetail = ({ job }) => {
 
                     {/* Apply Button */}
                     <div className="shrink-0">
-                        <button className="px-6 py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white font-medium transition shadow-sm hover:shadow-md">
+                        <button className="px-6 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-white font-medium transition shadow-sm hover:shadow-md">
                             Apply Now
                         </button>
                     </div>
@@ -50,7 +50,7 @@ export const JobDetail = ({ job }) => {
                     <ul className="space-y-2">
                         {job.details.rolesAndResponsibilities.map((role, idx) => (
                             <li key={idx} className="flex gap-2">
-                                <span className="mt-[6px] w-1.5 h-1.5 bg-red-500 rounded-full" />
+                                <span className="mt-[6px] w-1.5 h-1.5 bg-emerald-400 rounded-full" />
                                 <span>{role}</span>
                             </li>
                         ))}
@@ -71,7 +71,7 @@ export const JobDetail = ({ job }) => {
                         <ul className="space-y-2">
                             {job.details.bonusPoints.map((point, idx) => (
                                 <li key={idx} className="flex gap-2">
-                                    <span className="mt-[6px] w-1.5 h-1.5 bg-red-500 rounded-full" />
+                                    <span className="mt-[6px] w-1.5 h-1.5 bg-emerald-400 rounded-full" />
                                     <span>{point}</span>
                                 </li>
                             ))}

@@ -3,7 +3,7 @@ export const JobCard = ({ job, onClick }) => {
         <div
             onClick={onClick}
             className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg 
-                   hover:shadow-md hover:border-red-500 cursor-pointer transition 
+                   hover:shadow-md hover:border-emerald-400 cursor-pointer transition 
                    bg-gray-50 dark:bg-gray-700"
         >
             {/* Title and Location */}

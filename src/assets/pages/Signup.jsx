@@ -22,9 +22,6 @@ export const Signup = () => {
     })
 
     const [isEmployer, setIsEmployer] = useState(false)
-    const handleEmployerSignup = () => {
-        setIsEmployer(true)
-    }
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -43,7 +40,7 @@ export const Signup = () => {
                 // Saving additional user information to firestore
                 await saveUserToFireStore(user.uid, formData.fullName, formData.email)
             } catch (err) {
-                console.error(err)
+                console.error("User signup error", err);
             }
         } else {
             console.log("Password and confirm pass doesn't match.")
@@ -56,7 +53,7 @@ export const Signup = () => {
     return (
         <>
             {isEmployer ? <EmployerSignup setIsEmployer={setIsEmployer} /> : <div className="min-h-screen bg-linear-to-br from-emerald-50 to-white flex items-center justify-center px-4 py-12">
-                <button onClick={handleEmployerSignup} className="absolute top-0 right-0 mt-4 mr-4 px-4 py-2 text-emerald-500 cursor-pointer
+                <button onClick={() => setIsEmployer(true)} className="absolute top-0 right-0 mt-4 mr-4 px-4 py-2 text-emerald-500 cursor-pointer
                    after:content-[''] after:block after:w-0 after:h-0.5 after:bg-emerald-500 after:transition-all
                    after:duration-300 hover:after:w-full">
                     Employer Signup

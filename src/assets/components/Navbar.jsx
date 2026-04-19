@@ -23,19 +23,19 @@ export const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-8">
                         <Link
                             to="/"
-                            className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
+                            className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 font-medium transition"
                         >
                             Jobs
                         </Link>
                         <Link
                             to="/appliedjobs"
-                            className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
+                            className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 font-medium transition"
                         >
                             Applied Jobs
                         </Link>
                         <Link
                             to="/companies"
-                            className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
+                            className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 font-medium transition"
                         >
                             Companies
                         </Link>
@@ -88,21 +88,21 @@ export const Navbar = () => {
 
                         <Link
                             to="#"
-                            className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
+                            className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 font-medium transition"
                         >
                             Jobs
                         </Link>
 
                         <Link
                             to="#"
-                            className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
+                            className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 font-medium transition"
                         >
                             Applied Jobs
                         </Link>
 
                         <Link
                             to="#"
-                            className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 font-medium transition"
+                            className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 font-medium transition"
                         >
                             Companies
                         </Link>
