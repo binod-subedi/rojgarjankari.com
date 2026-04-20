@@ -1,30 +1,26 @@
-export const JobCard = ({ job, onClick }) => {
+export const JobCard = ({ job, isSelected, onClick }) => {
     return (
         <div
             onClick={onClick}
-            className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg 
-                   hover:shadow-md hover:border-emerald-400 cursor-pointer transition 
-                   bg-gray-50 dark:bg-gray-700"
+            className={`p-5 rounded-xl border transition-all cursor-pointer group ${isSelected
+                ? "border-emerald-500 bg-emerald-50/30 shadow-sm"
+                : "border-gray-100 bg-white hover:border-emerald-300 hover:shadow-md"
+                }`}
         >
-            {/* Title and Location */}
-            <div className="flex justify-between items-center mb-1">
-                <h3 className="text-md font-semibold text-gray-900 dark:text-gray-100">
+            <div className="flex justify-between items-start mb-2">
+                <h3 className="font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">
                     {job.jobTitle}
                 </h3>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">
                     {job.company.location}
                 </span>
             </div>
-
-            {/* Company Name */}
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                {job.company.name}
-            </p>
-
-            {/* Employment Type */}
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-                {job.employmentType}
-            </p>
+            <p className="text-sm text-gray-600 mb-3">{job.company.name}</p>
+            <div className="flex items-center">
+                <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-gray-100 text-gray-600">
+                    {job.employmentType}
+                </span>
+            </div>
         </div>
     );
 };
