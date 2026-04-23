@@ -1,10 +1,11 @@
-import "../styles/Spinner.css"
+import "../styles/Spinner.css";
+
 const Spinner = () => {
     return (
-        <div className="spinner-wrapper">
+        <div className="flex justify-center items-center min-h-screen">
             <span className="spinner"></span>
         </div>
-    )
-}
+    );
+};
 
-export default Spinner
+export default Spinner;

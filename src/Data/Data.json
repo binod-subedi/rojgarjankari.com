@@ -153,5 +153,145 @@
         "time": "8:00 am - 4:00 pm"
       }
     }
+  },
+
+  {
+    "jobId": "JOB006",
+    "jobTitle": "Mobile App Developer",
+    "company": {
+      "name": "EB Pearls",
+      "location": "Kathmandu, Nepal"
+    },
+    "salary": "11,00,000 per annum",
+    "employmentType": "Full-time",
+    "experienceLevel": "Mid-Level",
+    "jobDescription": "Develop mobile applications for Android and iOS.",
+    "details": {
+      "rolesAndResponsibilities": ["Build mobile apps", "Fix bugs", "Collaborate with UI team"],
+      "requirements": {
+        "technicalSkills": ["Flutter", "React Native", "Swift"],
+        "softSkills": ["Teamwork", "Communication"],
+        "experience": "3+ years",
+        "education": "Bachelor’s in IT"
+      },
+      "whatWeOffer": ["Flexible hours", "Bonuses"],
+      "bonusPoints": ["Firebase"],
+      "workTime": {
+        "days": "Sunday - Friday",
+        "time": "10:00 am - 6:00 pm"
+      }
+    }
+  },
+
+  {
+    "jobId": "JOB007",
+    "jobTitle": "QA Engineer",
+    "company": {
+      "name": "F1Soft",
+      "location": "Kathmandu, Nepal"
+    },
+    "salary": "7,50,000 per annum",
+    "employmentType": "Full-time",
+    "experienceLevel": "Entry-Level",
+    "jobDescription": "Test software to ensure quality and reliability.",
+    "details": {
+      "rolesAndResponsibilities": ["Write test cases", "Perform manual testing", "Report bugs"],
+      "requirements": {
+        "technicalSkills": ["Selenium", "JIRA"],
+        "softSkills": ["Attention to detail"],
+        "experience": "1+ years",
+        "education": "Bachelor’s degree"
+      },
+      "whatWeOffer": ["Training", "Health insurance"],
+      "bonusPoints": ["Automation testing"],
+      "workTime": {
+        "days": "Monday - Friday",
+        "time": "9:00 am - 5:00 pm"
+      }
+    }
+  },
+
+  {
+    "jobId": "JOB008",
+    "jobTitle": "Product Manager",
+    "company": {
+      "name": "Daraz",
+      "location": "Kathmandu, Nepal"
+    },
+    "salary": "18,00,000 per annum",
+    "employmentType": "Full-time",
+    "experienceLevel": "Senior-Level",
+    "jobDescription": "Lead product development and strategy.",
+    "details": {
+      "rolesAndResponsibilities": ["Define roadmap", "Coordinate teams", "Track KPIs"],
+      "requirements": {
+        "technicalSkills": ["Agile", "Scrum"],
+        "softSkills": ["Leadership", "Decision making"],
+        "experience": "5+ years",
+        "education": "MBA or equivalent"
+      },
+      "whatWeOffer": ["Bonuses", "Stock options"],
+      "bonusPoints": ["Tech background"],
+      "workTime": {
+        "days": "Monday - Friday",
+        "time": "9:00 am - 6:00 pm"
+      }
+    }
+  },
+
+  {
+    "jobId": "JOB009",
+    "jobTitle": "System Administrator",
+    "company": {
+      "name": "WorldLink",
+      "location": "Kathmandu, Nepal"
+    },
+    "salary": "9,50,000 per annum",
+    "employmentType": "Full-time",
+    "experienceLevel": "Mid-Level",
+    "jobDescription": "Manage IT systems and infrastructure.",
+    "details": {
+      "rolesAndResponsibilities": ["Maintain servers", "Monitor networks", "Troubleshoot issues"],
+      "requirements": {
+        "technicalSkills": ["Linux", "Networking"],
+        "softSkills": ["Problem-solving"],
+        "experience": "3+ years",
+        "education": "IT degree"
+      },
+      "whatWeOffer": ["Health benefits"],
+      "bonusPoints": ["Cloud knowledge"],
+      "workTime": {
+        "days": "Monday - Friday",
+        "time": "9:00 am - 5:00 pm"
+      }
+    }
+  },
+
+  {
+    "jobId": "JOB010",
+    "jobTitle": "Machine Learning Engineer",
+    "company": {
+      "name": "NAAMII",
+      "location": "Kathmandu, Nepal"
+    },
+    "salary": "20,00,000 per annum",
+    "employmentType": "Full-time",
+    "experienceLevel": "Senior-Level",
+    "jobDescription": "Build and deploy ML models.",
+    "details": {
+      "rolesAndResponsibilities": ["Train models", "Optimize algorithms", "Deploy solutions"],
+      "requirements": {
+        "technicalSkills": ["Python", "TensorFlow"],
+        "softSkills": ["Analytical thinking"],
+        "experience": "4+ years",
+        "education": "Master’s degree"
+      },
+      "whatWeOffer": ["Research opportunities"],
+      "bonusPoints": ["Deep Learning"],
+      "workTime": {
+        "days": "Monday - Friday",
+        "time": "10:00 am - 6:00 pm"
+      }
+    }
   }
 ]

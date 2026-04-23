@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     MapPin,
     Trash2,
     FileText,
     User,
-    Search,
-    Briefcase,
-    Settings,
-    LogOut,
     ExternalLink,
     Plus
 } from 'lucide-react';
+import { Navbar } from "../components";
+import { useDebounce } from "../hooks/useDebounce";
 
 export const EmployerDashboard = () => {
-    // Mock Data
+
     const [jobs, setJobs] = useState([
         {
             id: 1,
@@ -21,7 +19,6 @@ export const EmployerDashboard = () => {
             location: "Sydney, NSW",
             salary: "$140k - $160k",
             applications: 24,
-            postedDate: "12/07/2025"
         },
         {
             id: 2,
@@ -29,7 +26,6 @@ export const EmployerDashboard = () => {
             location: "Remote",
             salary: "$110k - $130k",
             applications: 18,
-            postedDate: "15/07/2025"
         },
         {
             id: 3,
@@ -37,264 +33,229 @@ export const EmployerDashboard = () => {
             location: "Melbourne, VIC",
             salary: "Competitive",
             applications: 42,
-            postedDate: "10/07/2025"
         }
     ]);
 
-    const [applicants, setApplicants] = useState([
+    const [applicants] = useState([
         {
             id: "APP-001",
             name: "Binod Subedi",
-            note: "I have 3 years of international experience in React and Tailwind.",
+            note: "3 years React + Tailwind experience",
             appliedOn: "17/07/2025",
             photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Binod"
         },
         {
             id: "APP-002",
             name: "Sarah Jenkins",
-            note: "Passionate about building accessible web applications.",
+            note: "Accessible UI enthusiast",
             appliedOn: "18/07/2025",
             photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah"
-        },
-        {
-            id: "APP-003",
-            name: "Michael Chen",
-            note: "Former lead at a fintech startup, looking for new challenges.",
-            appliedOn: "19/07/2025",
-            photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael"
-        },
-        {
-            id: "APP-004",
-            name: "Binod Subedi", // Repeating as per wireframe
-            note: "I have 3 years of international experience.",
-            appliedOn: "17/07/2025",
-            applicantId: "{Index of the Applicant}",
-            photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Binod2"
         }
     ]);
 
     const [selectedJobId, setSelectedJobId] = useState(1);
     const [searchLocation, setSearchLocation] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const debouncedLocation = useDebounce(searchLocation);
 
     const selectedJob = jobs.find(j => j.id === selectedJobId);
 
+    // ✅ Debounced filtering
+    const filteredJobs = useMemo(() => {
+        return jobs.filter(job =>
+            job.location.toLowerCase().includes(debouncedLocation.toLowerCase())
+        );
+    }, [debouncedLocation, jobs]);
+
+    // ✅ Skeleton loading effect
+    useEffect(() => {
+        setIsLoading(true);
+        const t = setTimeout(() => setIsLoading(false), 300);
+        return () => clearTimeout(t);
+    }, [searchLocation]);
+
     const handleDeleteJob = (id) => {
-        // In a real app, this would be an API call
-        setJobs(jobs.filter(j => j.id !== id));
+        setJobs(prev => prev.filter(j => j.id !== id));
         if (selectedJobId === id) setSelectedJobId(null);
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans text-gray-700">
-            {/* Header */}
-            <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        {/* Logo */}
-                        <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                                <Briefcase size={18} className="text-white" />
-                            </div>
-                            <span className="font-bold text-xl tracking-tight">HireStream</span>
-                        </div>
+        <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+            <Navbar />
 
-                        {/* Navigation */}
-                        <nav className="hidden md:flex space-x-8">
-                            <button className="text-emerald-600 border-b-2 border-emerald-500 px-1 py-4 text-sm font-medium">
-                                Vacancies
-                            </button>
-                            <button className="text-gray-500 hover:text-gray-700 px-1 py-4 text-sm font-medium transition-colors">
-                                Company Profile
-                            </button>
-                            <button className="text-gray-500 hover:text-gray-700 px-1 py-4 text-sm font-medium transition-colors">
-                                Analytics
-                            </button>
-                        </nav>
+            <div className="max-w-7xl mx-auto px-4 py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-                        {/* Profile */}
-                        <div className="flex items-center gap-4">
-                            <div className="hidden sm:flex flex-col items-end">
-                                <span className="text-sm font-semibold">TechCorp Solutions</span>
-                                <span className="text-xs text-gray-400">Employer Account</span>
-                            </div>
-                            <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden">
-                                <User size={20} className="text-gray-400" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
+                    {/* LEFT: JOB LIST */}
+                    <div className="lg:col-span-4 space-y-6">
 
-            {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 py-8">
-                <div className="flex flex-col lg:flex-row gap-8">
-
-                    {/* Left Column: Posted Jobs */}
-                    <div className="w-full lg:w-2/5 space-y-6">
+                        {/* Header */}
                         <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Posted Jobs</h2>
-                            <button className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-sm">
+                            <h2 className="text-xl font-bold text-gray-900">
+                                Posted Jobs
+                            </h2>
+
+                            <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-xl text-sm hover:bg-black transition">
                                 <Plus size={16} />
-                                Post Job
+                                Post
                             </button>
                         </div>
 
-                        {/* Search Filter based on prompt snippet */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex items-center px-4 group focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
-                            <MapPin className="text-gray-400 mr-3 group-focus-within:text-emerald-500 transition-colors" size={20} />
+                        {/* Search */}
+                        <div className="bg-white border border-gray-200 rounded-xl px-4 flex items-center">
+                            <MapPin size={18} className="text-gray-400 mr-2" />
                             <input
-                                type="text"
                                 placeholder="Filter by location..."
                                 value={searchLocation}
                                 onChange={(e) => setSearchLocation(e.target.value)}
-                                className="w-full py-4 bg-transparent outline-none text-gray-700 font-medium placeholder:text-gray-400"
+                                className="w-full py-3 outline-none text-sm text-gray-700 placeholder:text-gray-400"
                             />
                         </div>
 
-                        <div className="space-y-4">
-                            {jobs.filter(job => job.location.toLowerCase().includes(searchLocation.toLowerCase())).map((job) => (
-                                <div
-                                    key={job.id}
-                                    onClick={() => setSelectedJobId(job.id)}
-                                    className={`relative p-5 bg-white rounded-2xl border-2 transition-all cursor-pointer shadow-sm hover:shadow-md ${selectedJobId === job.id ? 'border-emerald-500 ring-4 ring-emerald-500/10' : 'border-transparent'
-                                        }`}
-                                >
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <h3 className="font-bold text-lg text-gray-900 leading-tight">
-                                                {job.title}, {job.location}
-                                            </h3>
-                                            <p className="text-emerald-600 font-semibold mt-1">
-                                                {job.salary}
-                                            </p>
-                                            <div className="mt-4 flex items-center text-sm text-gray-400">
-                                                <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-medium">
-                                                    {job.applications} Applications So Far
+                        {/* Jobs List */}
+                        <div className="space-y-3">
+
+                            {/* Skeleton */}
+                            {isLoading ? (
+                                [...Array(4)].map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className="h-20 bg-gray-100 animate-pulse rounded-xl"
+                                    />
+                                ))
+                            ) : filteredJobs.length > 0 ? (
+
+                                filteredJobs.map(job => (
+                                    <div
+                                        key={job.id}
+                                        onClick={() => setSelectedJobId(job.id)}
+                                        className={`p-4 rounded-xl border cursor-pointer transition-all group
+                                        ${selectedJobId === job.id
+                                                ? "border-emerald-500 shadow-sm"
+                                                : "border-gray-200 hover:border-emerald-300 hover:shadow-sm"
+                                            }`}
+                                    >
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="font-semibold text-gray-900 group-hover:text-emerald-600 transition">
+                                                    {job.title}
+                                                </h3>
+
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    {job.location}
+                                                </p>
+
+                                                <span className="text-xs mt-2 inline-block bg-gray-100 text-gray-600 px-2 py-1 rounded-md">
+                                                    {job.applications} applicants
                                                 </span>
                                             </div>
+
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDeleteJob(job.id);
+                                                }}
+                                                className="text-gray-400 hover:text-red-500 transition"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
                                         </div>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDeleteJob(job.id);
-                                            }}
-                                            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors group"
-                                            title="Delete Job"
-                                        >
-                                            <Trash2 size={20} />
-                                        </button>
                                     </div>
+                                ))
+
+                            ) : (
+                                <div className="text-sm text-gray-400 text-center py-6">
+                                    No jobs found
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
 
-                    {/* Divider (Desktop Only) */}
-                    <div className="hidden lg:block w-px bg-gray-200 self-stretch"></div>
+                    {/* RIGHT: APPLICANTS */}
+                    <div className="lg:col-span-8 space-y-6">
 
-                    {/* Right Column: Applicants */}
-                    <div className="w-full lg:w-3/5">
                         {selectedJob ? (
-                            <div className="space-y-6">
-                                <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-gray-200 pb-6 gap-4">
-                                    <div>
-                                        <span className="text-xs font-bold text-emerald-500 uppercase tracking-widest">Active Listing</span>
-                                        <h2 className="text-3xl font-bold text-gray-900 mt-1">{selectedJob.title}</h2>
-                                        <div className="flex items-center text-gray-500 mt-2 gap-4">
-                                            <div className="flex items-center gap-1.5">
-                                                <MapPin size={16} />
-                                                <span className="text-sm font-medium">{selectedJob.location}</span>
-                                            </div>
-                                            <div className="flex items-center gap-1.5">
-                                                <Briefcase size={16} />
-                                                <span className="text-sm font-medium">{selectedJob.salary}</span>
-                                            </div>
+                            <>
+                                {/* Job Header */}
+                                <div className="bg-white border border-gray-200 rounded-2xl p-6">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <h1 className="text-2xl font-bold text-gray-900">
+                                                {selectedJob.title}
+                                            </h1>
+                                            <p className="text-sm text-gray-500 mt-1">
+                                                {selectedJob.location} • {selectedJob.salary}
+                                            </p>
                                         </div>
+
+                                        <button className="text-sm flex items-center gap-1 text-gray-500 hover:text-emerald-600 transition">
+                                            Edit <ExternalLink size={14} />
+                                        </button>
                                     </div>
-                                    <button className="flex items-center gap-2 text-gray-500 hover:text-emerald-600 text-sm font-medium px-3 py-2 rounded-lg hover:bg-emerald-50 transition-colors">
-                                        Edit Details <ExternalLink size={14} />
-                                    </button>
                                 </div>
 
-                                <div className="space-y-4 pt-2">
-                                    <div className="flex items-center justify-between">
-                                        <h3 className="text-lg font-bold">Candidates</h3>
-                                        <div className="text-sm text-gray-400 font-medium">Showing {applicants.length} results</div>
-                                    </div>
+                                {/* Applicants */}
+                                <div className="space-y-4">
+                                    <h3 className="font-semibold text-gray-900">
+                                        Applicants ({applicants.length})
+                                    </h3>
 
-                                    {applicants.map((applicant, index) => (
-                                        <div key={index} className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                                            <div className="flex flex-col md:flex-row gap-6">
-                                                {/* Profile Section */}
-                                                <div className="flex flex-col items-center gap-2">
-                                                    <div className="w-16 h-16 bg-gray-50 rounded-full border border-gray-100 flex items-center justify-center overflow-hidden">
-                                                        <img src={applicant.photo} alt={applicant.name} className="w-full h-full object-cover" />
-                                                    </div>
-                                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center">Candidate Photo</span>
-                                                </div>
+                                    {applicants.map(app => (
+                                        <div
+                                            key={app.id}
+                                            className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-sm transition"
+                                        >
+                                            <div className="flex gap-4">
 
-                                                {/* Content Section */}
-                                                <div className="flex-1 space-y-2">
-                                                    <h4 className="text-xl font-bold text-gray-900">{applicant.name}</h4>
-                                                    <p className="text-gray-600 leading-relaxed text-sm">
-                                                        <span className="font-semibold text-gray-800">Candidate Note:</span> {applicant.note}
+                                                {/* Avatar */}
+                                                <img
+                                                    src={app.photo}
+                                                    alt={app.name}
+                                                    className="w-12 h-12 rounded-full border"
+                                                />
+
+                                                {/* Info */}
+                                                <div className="flex-1">
+                                                    <h4 className="font-semibold text-gray-900">
+                                                        {app.name}
+                                                    </h4>
+
+                                                    <p className="text-sm text-gray-600 mt-1">
+                                                        {app.note}
                                                     </p>
-                                                    <div className="flex flex-wrap gap-4 pt-1">
-                                                        <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                                                            <span className="font-semibold">Applied On:</span> {applicant.appliedOn}
-                                                        </div>
-                                                        <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                                                            <span className="font-semibold">Applicant ID:</span> {applicant.id}
-                                                        </div>
+
+                                                    <div className="text-xs text-gray-400 mt-2">
+                                                        Applied on {app.appliedOn}
                                                     </div>
                                                 </div>
 
-                                                {/* Action Section */}
-                                                <div className="flex flex-row md:flex-col gap-3 justify-center">
-                                                    <button className="flex items-center justify-center gap-2 w-full px-6 py-2.5 rounded-xl border border-gray-200 text-gray-700 font-bold text-sm hover:bg-gray-50 transition-colors">
-                                                        <FileText size={16} className="text-emerald-500" />
-                                                        Cover Letter
+                                                {/* Actions */}
+                                                <div className="flex flex-col gap-2">
+                                                    <button className="px-3 py-2 text-xs border rounded-lg hover:bg-gray-50 flex items-center gap-1 transition">
+                                                        <FileText size={14} />
+                                                        Cover
                                                     </button>
-                                                    <button className="flex items-center justify-center gap-2 w-full px-6 py-2.5 rounded-xl border border-gray-200 text-gray-700 font-bold text-sm hover:bg-gray-50 transition-colors">
-                                                        <User size={16} className="text-emerald-500" />
+                                                    <button className="px-3 py-2 text-xs border rounded-lg hover:bg-gray-50 flex items-center gap-1 transition">
+                                                        <User size={14} />
                                                         Resume
                                                     </button>
                                                 </div>
+
                                             </div>
                                         </div>
                                     ))}
                                 </div>
-                            </div>
+                            </>
                         ) : (
-                            <div className="h-full flex flex-col items-center justify-center text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
-                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                                    <Search size={32} className="text-gray-300" />
-                                </div>
-                                <h3 className="text-xl font-bold text-gray-900">Select a job listing</h3>
-                                <p className="text-gray-500 mt-2 max-w-xs mx-auto">
-                                    Click on a posted job from the left sidebar to view candidate applications and details.
-                                </p>
+                            <div className="h-full flex items-center justify-center text-gray-400">
+                                Select a job to view applicants
                             </div>
                         )}
+
                     </div>
                 </div>
-            </main>
-
-            {/* Footer / Status Bar (Mobile) */}
-            <footer className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 flex justify-around items-center">
-                <button className="text-emerald-500 flex flex-col items-center gap-1">
-                    <Briefcase size={20} />
-                    <span className="text-[10px] font-bold">Jobs</span>
-                </button>
-                <button className="text-gray-400 flex flex-col items-center gap-1">
-                    <Settings size={20} />
-                    <span className="text-[10px] font-bold">Settings</span>
-                </button>
-                <button className="text-gray-400 flex flex-col items-center gap-1">
-                    <LogOut size={20} />
-                    <span className="text-[10px] font-bold">Exit</span>
-                </button>
-            </footer>
+            </div>
         </div>
     );
 };

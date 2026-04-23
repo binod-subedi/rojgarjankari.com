@@ -1,13 +1,14 @@
 import { firestore } from './firebase'
 import { doc, setDoc } from 'firebase/firestore'
 
-export const saveUserToFireStore = async (uid, fullName, email) => {
+export const saveUserToFireStore = async (uid, fullName, email, phone) => {
     try {
         const userRef = doc(firestore, 'users', uid);
         await setDoc(userRef, {
             fullName: fullName,
             role: "user",
             email: email,
+            phone: phone,
             createdAt: new Date()
         });
         console.log("User data saved successfully");

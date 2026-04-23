@@ -1,2 +1,2 @@
-export { Navbar } from './Navbar'
-export { JobDetail } from './JobDetail'
+export { Navbar } from "./Navbar";
+export { JobDetail } from "./JobDetail";
