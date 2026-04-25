@@ -8,7 +8,6 @@ import { saveEmployerToFireStore } from "../configs/firestore";
 import { AuthLayout, AuthHeader } from "../components/auth";
 import { EmployerSignupForm } from "../features/auth/EmployerSignupForm";
 
-
 export const EmployerSignup = ({ setIsEmployer }) => {
     const { isLoggedIn } = useAuth();
 
@@ -21,6 +20,9 @@ export const EmployerSignup = ({ setIsEmployer }) => {
         agreeToTerms: false,
     });
 
+    const [shake, setShake] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+
     if (isLoggedIn) return <Navigate to="/" />;
 
     const handleChange = (e) => {
@@ -32,11 +34,27 @@ export const EmployerSignup = ({ setIsEmployer }) => {
         }));
     };
 
+    const triggerShake = () => {
+        setShake(true);
+        setTimeout(() => setShake(false), 400);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!formData.fullName || !formData.email || !formData.companyName) {
+            triggerShake();
+            return;
+        }
+
         if (formData.password !== formData.confirmPassword) {
+            triggerShake();
             console.error("Passwords do not match");
+            return;
+        }
+
+        if (!formData.agreeToTerms) {
+            triggerShake();
             return;
         }
 
@@ -51,8 +69,11 @@ export const EmployerSignup = ({ setIsEmployer }) => {
                 formData.companyName
             );
 
+            setIsSuccess(true);
+
             console.log("Employer signup successful");
         } catch (err) {
+            triggerShake();
             console.error("Employer signup error:", err);
         }
     };
@@ -77,6 +98,8 @@ export const EmployerSignup = ({ setIsEmployer }) => {
                 onChange={handleChange}
                 onSubmit={handleSubmit}
                 setIsEmployer={setIsEmployer}
+                shake={shake}
+                isSuccess={isSuccess}
             />
         </AuthLayout>
     );

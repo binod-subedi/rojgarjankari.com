@@ -1,7 +1,6 @@
 import { Mail } from "lucide-react";
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import { AuthInput, AuthButton, PasswordInput } from "../../components/auth";
 
@@ -10,8 +9,9 @@ export const EmployerSignupForm = ({
     onChange,
     onSubmit,
     setIsEmployer,
+    shake,
+    isSuccess,
 }) => {
-
 
     const container = {
         hidden: {},
@@ -27,6 +27,14 @@ export const EmployerSignupForm = ({
         show: { opacity: 1, y: 0 },
     };
 
+    const shakeAnimation = {
+        x: [0, -8, 8, -6, 6, -3, 3, 0],
+    };
+
+    const successAnimation = {
+        scale: [1, 1.03, 1],
+    };
+
     return (
         <motion.form
             variants={container}
@@ -35,13 +43,17 @@ export const EmployerSignupForm = ({
             onSubmit={onSubmit}
             className="space-y-5"
         >
-
             {/* Name + Company */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <motion.div
+                animate={shake ? shakeAnimation : isSuccess ? successAnimation : {}}
+                transition={{ duration: 0.35 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
                 <motion.div variants={item}>
                     <AuthInput
                         label="Full name"
                         name="fullName"
+                        type="text"
                         value={formData.fullName}
                         onChange={onChange}
                         placeholder="Your Name"
@@ -52,26 +64,33 @@ export const EmployerSignupForm = ({
                     <AuthInput
                         label="Company"
                         name="companyName"
+                        type="text"
                         value={formData.companyName}
                         onChange={onChange}
                         placeholder="Your Company"
                     />
                 </motion.div>
-            </div>
+            </motion.div>
 
             {/* Email */}
             <motion.div variants={item}>
                 <AuthInput
                     label="Email"
                     name="email"
+                    type="email"
                     value={formData.email}
                     onChange={onChange}
                     icon={Mail}
                     placeholder="name@company.com"
                 />
             </motion.div>
+
             {/* Password row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <motion.div
+                animate={shake ? shakeAnimation : {}}
+                transition={{ duration: 0.35 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
                 <motion.div variants={item}>
                     <PasswordInput
                         label="Password"
@@ -89,10 +108,15 @@ export const EmployerSignupForm = ({
                         onChange={onChange}
                     />
                 </motion.div>
-            </div>
+            </motion.div>
 
             {/* Terms */}
-            <label className="flex items-start gap-2 text-sm text-gray-600">
+            <motion.label
+                variants={item}
+                animate={shake ? shakeAnimation : {}}
+                transition={{ duration: 0.35 }}
+                className="flex items-start gap-2 text-sm text-gray-600"
+            >
                 <input
                     type="checkbox"
                     name="agreeToTerms"
@@ -107,7 +131,7 @@ export const EmployerSignupForm = ({
                         Terms and Conditions
                     </span>
                 </span>
-            </label>
+            </motion.label>
 
             {/* Submit */}
             <motion.div variants={item}>
@@ -119,10 +143,14 @@ export const EmployerSignupForm = ({
             {/* Footer */}
             <p className="text-center text-sm text-gray-500 pt-2">
                 Already have an account?{" "}
-                <Link to="/login" className="text-gray-900 font-medium hover:underline">
+                <Link
+                    to="/login"
+                    className="text-gray-900 font-medium hover:underline"
+                >
                     Sign in
                 </Link>
-                <br />Looking for jobs?{" "}
+                <br />
+                Looking for jobs?{" "}
                 <button
                     type="button"
                     onClick={() => setIsEmployer(false)}
@@ -131,7 +159,6 @@ export const EmployerSignupForm = ({
                     Create employee account
                 </button>
             </p>
-
-        </motion.form >
+        </motion.form>
     );
 };
