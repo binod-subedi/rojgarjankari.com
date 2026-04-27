@@ -11,11 +11,12 @@ import {
 } from "../../components/auth";
 
 export const LoginForm = ({
-    formData,
-    onChange,
+    register,
+    errors,
     onSubmit,
     onGoogle,
-    error,
+    shake,
+    isSuccess,
 }) => {
     const container = {
         hidden: {},
@@ -31,78 +32,82 @@ export const LoginForm = ({
         show: { opacity: 1, y: 0 },
     };
 
-    const shakeAnimation = error
-        ? { x: [0, -6, 6, -4, 4, 0] }
-        : {};
+    const shakeAnimation = {
+        x: [0, -8, 8, -6, 6, -3, 3, 0],
+        transition: { duration: 0.4 },
+    };
+
+    const successAnimation = {
+        scale: [1, 1.03, 1],
+        transition: { duration: 0.3 },
+    };
+
 
     return (
-        <motion.form
-            variants={container}
-            initial="hidden"
-            animate={["show", shakeAnimation]}
-            transition={{ duration: 0.3 }}
-            onSubmit={onSubmit}
-            className="space-y-6"
+        <motion.div
+            animate={shake ? shakeAnimation : isSuccess ? successAnimation : {}}
         >
-            {/* Email */}
-            <motion.div variants={item}>
-                <AuthInput
-                    label="Email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={onChange}
-                    placeholder="name@company.com"
-                    icon={Mail}
-                    required
-                />
-            </motion.div>
+            <motion.form
+                variants={container}
+                initial="hidden"
+                animate={"show"}
+                onSubmit={onSubmit}
+                className="space-y-6"
+            >
+                {/* Email */}
+                <motion.div variants={item}>
+                    <AuthInput
+                        label="Email"
+                        {...register("email")}
+                        placeholder="name@company.com"
+                        type="email"
+                        icon={Mail}
+                    />
+                    {errors.email && (
+                        <motion.p className="text-xs text-red-500 mt-1">
+                            {errors.email.message}
+                        </motion.p>
+                    )}
+                </motion.div>
 
-            {/* Password */}
-            <motion.div variants={item}>
-                <PasswordInput
-                    label="Password"
-                    name="password"
-                    value={formData.password}
-                    onChange={onChange}
-                />
-            </motion.div>
+                {/* Password */}
+                <motion.div variants={item}>
+                    <PasswordInput
+                        label="Password"
+                        {...register("password")}
+                    />
+                    {errors.password && (
+                        <motion.p className="text-xs text-red-500 mt-1">
+                            {errors.password.message}
+                        </motion.p>
+                    )}
+                </motion.div>
 
-            {/* Error Message */}
-            {error && (
-                <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-sm text-red-500"
-                >
-                    {error}
-                </motion.p>
-            )}
+                {/* Submit */}
+                <motion.div variants={item}>
+                    <AuthButton type="submit">Sign In</AuthButton>
+                </motion.div>
 
-            {/* Submit */}
-            <motion.div variants={item}>
-                <AuthButton type="submit">Sign In</AuthButton>
-            </motion.div>
+                <Divider />
 
-            <Divider />
+                {/* Google */}
+                <motion.div variants={item}>
+                    <SocialAuthButton onClick={onGoogle}>
+                        Continue with Google
+                    </SocialAuthButton>
+                </motion.div>
 
-            {/* Google */}
-            <motion.div variants={item}>
-                <SocialAuthButton onClick={onGoogle}>
-                    Continue with Google
-                </SocialAuthButton>
-            </motion.div>
-
-            {/* Footer */}
-            <p className="text-center text-sm text-gray-500 mt-6">
-                Don’t have an account?{" "}
-                <Link
-                    to="/signup"
-                    className="text-gray-900 font-medium hover:underline"
-                >
-                    Sign up
-                </Link>
-            </p>
-        </motion.form>
+                {/* Footer */}
+                <p className="text-center text-sm text-gray-500 mt-6">
+                    Don’t have an account?{" "}
+                    <Link
+                        to="/signup"
+                        className="text-gray-900 font-medium hover:underline"
+                    >
+                        Sign up
+                    </Link>
+                </p>
+            </motion.form>
+        </motion.div>
     );
 };

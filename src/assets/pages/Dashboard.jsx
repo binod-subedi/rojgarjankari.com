@@ -1,12 +1,18 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import { Navigate } from 'react-router-dom'
 import jobsData from "../../Data/Data.json";
 import { Navbar } from "../components";
 import { JobCard } from "../components/JobCard";
 import { JobDetail } from "../components/JobDetail";
 import { useDebounce } from "../hooks/useDebounce";
+import { useAuth } from "../contexts/AuthContext";
 
 export const Dashboard = () => {
+    const { userData } = useAuth();
+    if (userData?.role === "employer") {
+        return <Navigate to="employerDashboard" />;
+    }
     const [selectedJob, setSelectedJob] = useState(jobsData[0]);
     const [searchTitle, setSearchTitle] = useState("");
     const [searchLocation, setSearchLocation] = useState("");

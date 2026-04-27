@@ -1,82 +1,52 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-
+import { zodResolver } from "@hookform/resolvers/zod"; import { useForm } from 'react-hook-form'
 import { useAuth } from "../contexts/AuthContext";
 import { createUser } from "../configs/auth";
 import { saveEmployerToFireStore } from "../configs/firestore";
 
 import { AuthLayout, AuthHeader } from "../components/auth";
+import { empsignupSchema } from '../features/auth/validators/empsignupSchema'
 import { EmployerSignupForm } from "../features/auth/EmployerSignupForm";
 
 export const EmployerSignup = ({ setIsEmployer }) => {
     const { isLoggedIn } = useAuth();
 
-    const [formData, setFormData] = useState({
-        fullName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        companyName: "",
-        agreeToTerms: false,
-    });
-
     const [shake, setShake] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(empsignupSchema),
+    });
+
     if (isLoggedIn) return <Navigate to="/" />;
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === "checkbox" ? checked : value,
-        }));
-    };
-
-    const triggerShake = () => {
-        setShake(true);
-        setTimeout(() => setShake(false), 400);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!formData.fullName || !formData.email || !formData.companyName) {
-            triggerShake();
-            return;
-        }
-
-        if (formData.password !== formData.confirmPassword) {
-            triggerShake();
-            console.error("Passwords do not match");
-            return;
-        }
-
-        if (!formData.agreeToTerms) {
-            triggerShake();
-            return;
-        }
-
+    const onSubmit = async (data) => {
         try {
-            const res = await createUser(formData.email, formData.password);
+            const res = await createUser(data.email, data.password);
             const employer = res.user;
 
             await saveEmployerToFireStore(
                 employer.uid,
-                formData.fullName,
-                formData.email,
-                formData.companyName
+                data.fullName,
+                data.email,
+                data.companyName
             );
 
             setIsSuccess(true);
-
-            console.log("Employer signup successful");
         } catch (err) {
-            triggerShake();
-            console.error("Employer signup error:", err);
+            console.error(err);
         }
     };
+
+    const onError = () => {
+        setShake(true);
+        setTimeout(() => setShake(false), 400);
+    }
 
     return (
         <AuthLayout
@@ -94,9 +64,9 @@ export const EmployerSignup = ({ setIsEmployer }) => {
             />
 
             <EmployerSignupForm
-                formData={formData}
-                onChange={handleChange}
-                onSubmit={handleSubmit}
+                register={register}
+                errors={errors}
+                onSubmit={handleSubmit(onSubmit, onError)}
                 setIsEmployer={setIsEmployer}
                 shake={shake}
                 isSuccess={isSuccess}

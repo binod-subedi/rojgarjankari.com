@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import {
     setPersistence,
     browserLocalPersistence,
     browserSessionPersistence,
 } from "firebase/auth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../configs/firebase";
 import { signInUser, signInWithGoogle } from "../configs/auth";
+import { loginSchema } from "../features/auth/validators/loginSchema";
 
 import { AuthHeader, AuthLayout } from "../components/auth";
 import { LoginForm } from "../features/auth/LoginForm";
@@ -16,58 +19,53 @@ import { LoginForm } from "../features/auth/LoginForm";
 export const Login = () => {
     const { isLoggedIn } = useAuth();
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-        rememberMe: false,
+    const [shake, setShake] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false)
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue,
+    } = useForm({
+        resolver: zodResolver(loginSchema),
     });
 
-    const [error, setError] = useState("");
-
-    // Restore remembered email
+    // Restore remembered email if available
     useEffect(() => {
         const rememberedEmail = localStorage.getItem("rememberedEmail");
         if (rememberedEmail) {
-            setFormData((prev) => ({
-                ...prev,
-                email: rememberedEmail,
-                rememberMe: true,
-            }));
+            setValue("email", rememberedEmail); // Update the form value for email directly
+            setValue("rememberMe", true); // Check the rememberMe checkbox
         }
-    }, []);
+    }, [setValue]);
 
     if (isLoggedIn) return <Navigate to="/" />;
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === "checkbox" ? checked : value,
-        }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-
+    const onSubmit = async (data) => {
         try {
-            const persistence = formData.rememberMe
+            const persistence = data.rememberMe
                 ? browserLocalPersistence
                 : browserSessionPersistence;
 
             await setPersistence(auth, persistence);
-            await signInUser(formData.email, formData.password);
+            await signInUser(data.email, data.password);
 
-            if (formData.rememberMe) {
-                localStorage.setItem("rememberedEmail", formData.email);
+            // Handle email persistence
+            if (data.rememberMe) {
+                localStorage.setItem("rememberedEmail", data.email);
             } else {
                 localStorage.removeItem("rememberedEmail");
             }
-
+            setIsSuccess(true);
         } catch (err) {
-            console.error("Login error:", err);
-            setError("Invalid email or password");
+            console.error(err);
         }
+    };
+
+    const onError = () => {
+        setShake(true);
+        setTimeout(() => setShake(false), 400);
     };
 
     return (
@@ -86,11 +84,12 @@ export const Login = () => {
             />
 
             <LoginForm
-                formData={formData}
-                onChange={handleChange}
-                onSubmit={handleSubmit}
+                register={register}
+                errors={errors}
+                onSubmit={handleSubmit(onSubmit, onError)}
                 onGoogle={signInWithGoogle}
-                error={error}
+                shake={shake}
+                isSuccess={isSuccess}
             />
         </AuthLayout>
     );

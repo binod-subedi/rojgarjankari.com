@@ -20,6 +20,7 @@ export const AuthLayout = ({ children, title, subtitle }) => {
                         <h1 className="text-4xl font-bold mb-6">{title}</h1>
                         <p className="text-gray-400 text-sm max-w-xs">{subtitle}</p>
                     </motion.div>
+                    <p className="text-gray-700 text-sm max-w-xs">&copy; {new Date().getFullYear()} RojgarJankari.com</p>
                 </aside>
 
                 {/* Right */}

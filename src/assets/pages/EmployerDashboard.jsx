@@ -9,8 +9,14 @@ import {
 } from 'lucide-react';
 import { Navbar } from "../components";
 import { useDebounce } from "../hooks/useDebounce";
+import { useAuth } from '../contexts/AuthContext';
 
 export const EmployerDashboard = () => {
+
+    const { userData } = useAuth();
+    if (userData?.role === "user") {
+        return <Navigate to="/" />;
+    }
 
     const [jobs, setJobs] = useState([
         {
@@ -61,7 +67,6 @@ export const EmployerDashboard = () => {
 
     const selectedJob = jobs.find(j => j.id === selectedJobId);
 
-    // ✅ Debounced filtering
     const filteredJobs = useMemo(() => {
         return jobs.filter(job =>
             job.location.toLowerCase().includes(debouncedLocation.toLowerCase())
