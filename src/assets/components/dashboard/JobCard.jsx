@@ -3,8 +3,8 @@ export const JobCard = ({ job, isSelected, onClick }) => {
         <div
             onClick={onClick}
             className={`p-4 rounded-xl border cursor-pointer transition ${isSelected
-                    ? "border-gray-900 bg-gray-50"
-                    : "border-gray-200 hover:border-gray-400"
+                ? "border-gray-900 bg-gray-50"
+                : "border-gray-200 hover:border-gray-400"
                 }`}
         >
             <h3 className="text-sm font-semibold">{job.jobTitle}</h3>
