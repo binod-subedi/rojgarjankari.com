@@ -6,10 +6,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import jobsData from "../../Data/Data.json";
 import { useSearch, usePagination } from "../hooks";
+import Spinner from '../components/Spinner'
 
 export const Dashboard = () => {
     const { userData } = useAuth();
-    if (!userData) return <div>Loading...</div>;
+    if (!userData) return <Spinner />;
     if (userData.role === "employer") return <Navigate to="/employerDashboard" />;
 
     const { searchTitle, setSearchTitle, searchLocation, setSearchLocation, filteredJobs } =

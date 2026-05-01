@@ -2,7 +2,9 @@ import { createContext, useState, useEffect, useContext } from 'react'
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc } from 'firebase/firestore';
 import { auth, firestore } from '../configs/firebase'
+import { fetchUserDocument } from '../services/userService';
 import Spinner from '../components/Spinner';
+import { useCallback } from 'react';
 
 const AuthContext = createContext();
 
@@ -14,6 +16,14 @@ export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true);
+
+    const refreshUserData = useCallback(async (user = currentUser) => {
+        if (!user) return null;
+        const data = await fetchUserDocument(user.uid);
+        setUserData(data);
+        return data;
+    }, [currentUser]);
+
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -42,13 +52,14 @@ export const AuthProvider = ({ children }) => {
             setLoading(false)
         });
         return unsubscribe;
-    }, []);
+    }, [refreshUserData]);
 
     const value = {
         currentUser,
         userData,
         loading,
-        isLoggedIn: !!currentUser
+        isLoggedIn: !!currentUser,
+        refreshUserData
     }
 
     return (

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { Login, Signup, Dashboard, AppliedJobs, Companies, EmployerDashboard } from '../pages/index'
+import { Login, Signup, Dashboard, AppliedJobs, Companies, EmployerDashboard, ResetPass } from '../pages/index'
 import { ProtectedRoutes } from './ProtectedRoutes'
 
 export const AllRoutes = () => {
@@ -12,6 +12,7 @@ export const AllRoutes = () => {
                 <Route path='/employerdashboard' element={<EmployerDashboard />} />
             </Route>
             <Route path='/login' element={<Login />} />
+            <Route path='/resetpassword' element={<ResetPass />} />
             <Route path='/signup' element={<Signup />} />
         </Routes>
     )

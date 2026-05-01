@@ -28,6 +28,6 @@ export const saveEmployerToFireStore = async (uid, fullName, email, companyName)
             createdAt: new Date()
         })
     } catch (error) {
-        console.error(err)
+        console.error(error)
     }
 }

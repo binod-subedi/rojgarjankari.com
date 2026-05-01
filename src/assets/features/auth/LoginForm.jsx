@@ -17,6 +17,7 @@ export const LoginForm = ({
     onGoogle,
     shake,
     isSuccess,
+    loginError
 }) => {
     const container = {
         hidden: {},
@@ -82,6 +83,27 @@ export const LoginForm = ({
                         </motion.p>
                     )}
                 </motion.div>
+
+                <motion.div variants={item} className="flex items-center">
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                        {...register("rememberMe")}
+                        className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="rememberMe" className="ml-2 text-sm text-gray-600">
+                        Remember me
+                    </label>
+                </motion.div>
+                {loginError && (
+                    <motion.p
+                        className="text-sm text-red-500 text-center mt-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                    >
+                        {loginError}
+                    </motion.p>
+                )}
 
                 {/* Submit */}
                 <motion.div variants={item}>

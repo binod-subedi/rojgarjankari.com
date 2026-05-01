@@ -5,16 +5,17 @@ import { motion } from "framer-motion";
 import {
     AuthInput,
     AuthButton,
-    PasswordInput
+    PasswordInput, SocialAuthButton, Divider
 } from "../../components/auth";
 
 export const EmployerSignupForm = ({
     register,
     errors,
+    onGoogle,
     onSubmit,
     setIsEmployer,
     shake,
-    isSuccess,
+    isSuccess
 }) => {
 
     const container = {
@@ -39,7 +40,6 @@ export const EmployerSignupForm = ({
         scale: [1, 1.03, 1],
     };
 
-    console.log(errors)
     return (
         <motion.div
             animate={shake ? shakeAnimation : isSuccess ? successAnimation : {}}
@@ -167,6 +167,15 @@ export const EmployerSignupForm = ({
                     <AuthButton type="submit">
                         Create employer account
                     </AuthButton>
+                </motion.div>
+
+                <Divider />
+
+                {/* Google Signup */}
+                <motion.div variants={item}>
+                    <SocialAuthButton onClick={onGoogle}>
+                        Continue with Google
+                    </SocialAuthButton>
                 </motion.div>
 
                 {/* Footer */}
