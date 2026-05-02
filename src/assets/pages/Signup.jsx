@@ -10,12 +10,10 @@ import { saveUserToFireStore } from "../configs/firestore";
 
 import { AuthLayout, AuthHeader, AuthButton } from "../components/auth";
 import { SignupForm } from "../features/auth/SignupForm";
-import { EmployerSignup } from "./EmployerSignup";
 
 export const Signup = () => {
     const { isLoggedIn, refreshUserData } = useAuth();
 
-    const [isEmployer, setIsEmployer] = useState(false);
     const [shake, setShake] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
@@ -32,7 +30,6 @@ export const Signup = () => {
     });
 
     if (isLoggedIn && !isRegistering) return <Navigate to="/" />;
-    if (isEmployer) return <EmployerSignup setIsEmployer={setIsEmployer} />;
 
     const onSubmit = async (data) => {
         try {
@@ -134,7 +131,6 @@ export const Signup = () => {
                         errors={errors}
                         onSubmit={handleSubmit(onSubmit, onError)}
                         onGoogle={handleGoogle}
-                        setIsEmployer={setIsEmployer}
                         shake={shake}
                         isSuccess={isSuccess}
                     />

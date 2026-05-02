@@ -4,16 +4,17 @@ import { motion } from "framer-motion";
 
 import {
     AuthInput,
+    PasswordInput,
     AuthButton,
-    PasswordInput, SocialAuthButton, Divider
+    Divider,
+    SocialAuthButton
 } from "../../components/auth";
 
 export const EmployerSignupForm = ({
     register,
     errors,
-    onGoogle,
     onSubmit,
-    setIsEmployer,
+    onGoogle,
     shake,
     isSuccess
 }) => {
@@ -189,13 +190,12 @@ export const EmployerSignupForm = ({
                     </Link>
                     <br />
                     Looking for jobs?{" "}
-                    <button
-                        type="button"
-                        onClick={() => setIsEmployer(false)}
+                    <Link
+                        to="/signup"
                         className="text-gray-900 font-medium hover:underline"
                     >
                         Create employee account
-                    </button>
+                    </Link>
                 </p>
             </motion.form>
         </motion.div>

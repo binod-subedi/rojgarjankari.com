@@ -15,7 +15,6 @@ export const SignupForm = ({
     errors,
     onSubmit,
     onGoogle,
-    setIsEmployer,
     shake,
     isSuccess,
 }) => {
@@ -178,13 +177,12 @@ export const SignupForm = ({
                     </Link>
                     <br />
                     Hiring?{" "}
-                    <button
-                        type="button"
-                        onClick={() => setIsEmployer(true)}
+                    <Link
+                        to="/employersignup"
                         className="text-gray-900 font-medium hover:underline"
                     >
                         Create employer account
-                    </button>
+                    </Link>
                 </p>
             </motion.form>
         </motion.div>
