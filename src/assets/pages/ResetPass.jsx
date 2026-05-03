@@ -5,12 +5,13 @@ import { motion } from "framer-motion";
 import { Navigate, Link } from "react-router-dom";
 
 import { AuthLayout, AuthHeader } from "../components/auth";
-import { AuthInput, AuthButton, Divider, SocialAuthButton } from "../components/auth";
+import { AuthInput, AuthButton } from "../components/auth";
 import { Mail } from "lucide-react";
 
-import { passwordReset } from "../configs/auth"; // Assuming this exists
+import { passwordReset } from "../configs/auth";
 import { useAuth } from "../contexts/AuthContext";
 import { z } from "zod";
+import { loginSchema } from "../features/auth/validators/loginSchema";
 
 const resetPassSchema = z.object({
     email: z.email("Invalid email"),
@@ -27,7 +28,7 @@ export const ResetPass = () => {
         handleSubmit,
         formState: { errors },
     } = useForm({
-        resolver: zodResolver(resetPassSchema),
+        resolver: zodResolver(loginSchema),
     });
 
     if (isLoggedIn) return <Navigate to="/" />;

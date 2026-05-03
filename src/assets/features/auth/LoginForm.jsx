@@ -85,6 +85,7 @@ export const LoginForm = ({
                     )}
                 </motion.div>
 
+                {/* Flex section moved right after Password */}
                 <motion.div variants={item} className="flex items-center">
                     <input
                         type="checkbox"
@@ -95,7 +96,11 @@ export const LoginForm = ({
                     <label htmlFor="rememberMe" className="ml-2 text-sm text-gray-600">
                         Remember me
                     </label>
+                    <Link to="/resetpassword" className="ml-40 text-sm text-gray-600 hover:underline">
+                        Forgot Password?
+                    </Link>
                 </motion.div>
+
                 {loginError && (
                     <motion.p
                         className="text-sm text-red-500 text-center mt-2"

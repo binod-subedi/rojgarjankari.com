@@ -8,3 +8,4 @@ export { EmployerDashboard } from './EmployerDashboard';
 export { ResetPass } from './ResetPass';
 export { VerifyEmailPage } from './VerifyEmailPage'
 export { Error404 } from './Error404'
+export { Profile } from './Profile'
