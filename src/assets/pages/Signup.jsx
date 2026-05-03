@@ -5,10 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { signupSchema } from "../features/auth/validators/signupSchema";
 import { useAuth } from "../contexts/AuthContext";
-import { createUser, signInWithGoogle } from "../configs/auth";
+import { createUser, signInWithGoogle, verifyEmail } from "../configs/auth";
 import { saveUserToFireStore } from "../configs/firestore";
 
-import { AuthLayout, AuthHeader, AuthButton } from "../components/auth";
+import { AuthLayout, AuthHeader, AuthButton, errorMessages } from "../components/auth";
 import { SignupForm } from "../features/auth/SignupForm";
 
 export const Signup = () => {
@@ -20,6 +20,8 @@ export const Signup = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [googleUser, setGoogleUser] = useState(null);
     const [phone, setPhone] = useState("");
+    const [signupError, setSignupError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const {
         register,
@@ -32,9 +34,12 @@ export const Signup = () => {
     if (isLoggedIn && !isRegistering) return <Navigate to="/" />;
 
     const onSubmit = async (data) => {
+        setLoading(true)
         try {
             const res = await createUser(data.email, data.password);
             const user = res.user;
+
+            await verifyEmail(user)
 
             await saveUserToFireStore(
                 user.uid,
@@ -43,13 +48,20 @@ export const Signup = () => {
                 data.phone
             );
 
+            await refreshUserData(user);
             setIsSuccess(true);
         } catch (err) {
-            console.error("Signup Error:", err);
+            const message = errorMessages[err.code] || "An unknown error occurred. Please try again.";
+            setSignupError(message);
+            setShake(true);
+            setTimeout(() => setShake(false), 400);
+        } finally {
+            setLoading(false)
         }
     };
 
     const handleGoogle = async () => {
+        setLoading(true)
         try {
             const { user, isNewUser } = await signInWithGoogle();
             if (isNewUser) {
@@ -59,13 +71,16 @@ export const Signup = () => {
                 setIsSuccess(true);
             }
         } catch (err) {
-            console.error("Google Auth Error", err);
+            setSignupError("Google Sign-Up Failed.")
             setIsRegistering(false);
+        } finally {
+            setLoading(false)
         }
     };
 
     const finalizeGoogleSignup = async () => {
         if (!googleUser || !phone) return;
+        setLoading(true)
 
         try {
             await saveUserToFireStore(
@@ -80,6 +95,8 @@ export const Signup = () => {
             setIsSuccess(true);
         } catch (error) {
             console.error("Finalize Error:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -133,6 +150,8 @@ export const Signup = () => {
                         onGoogle={handleGoogle}
                         shake={shake}
                         isSuccess={isSuccess}
+                        loading={loading}
+                        signupError={signupError}
                     />
                 </>
             )}

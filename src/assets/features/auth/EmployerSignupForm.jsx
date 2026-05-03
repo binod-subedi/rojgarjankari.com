@@ -16,7 +16,9 @@ export const EmployerSignupForm = ({
     onSubmit,
     onGoogle,
     shake,
-    isSuccess
+    isSuccess,
+    loading,
+    signupError
 }) => {
 
     const container = {
@@ -162,10 +164,18 @@ export const EmployerSignupForm = ({
                         {errors.agreeToTerms.message}
                     </motion.p>
                 )}
-
+                {signupError && (
+                    <motion.p
+                        className="text-sm text-red-500 text-center mt-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                    >
+                        {signupError}
+                    </motion.p>
+                )}
                 {/* Submit */}
                 <motion.div variants={item}>
-                    <AuthButton type="submit">
+                    <AuthButton type="submit" loading={loading}>
                         Create employer account
                     </AuthButton>
                 </motion.div>
@@ -174,7 +184,7 @@ export const EmployerSignupForm = ({
 
                 {/* Google Signup */}
                 <motion.div variants={item}>
-                    <SocialAuthButton onClick={onGoogle}>
+                    <SocialAuthButton onClick={onGoogle} loading={loading}>
                         Continue with Google
                     </SocialAuthButton>
                 </motion.div>

@@ -17,6 +17,8 @@ export const SignupForm = ({
     onGoogle,
     shake,
     isSuccess,
+    loading,
+    signupError
 }) => {
     const container = {
         hidden: {},
@@ -151,17 +153,25 @@ export const SignupForm = ({
                         {errors.agreeToTerms.message}
                     </motion.p>
                 )}
-
+                {signupError && (
+                    <motion.p
+                        className="text-sm text-red-500 text-center mt-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                    >
+                        {signupError}
+                    </motion.p>
+                )}
                 {/* SUBMIT */}
                 <motion.div variants={item}>
-                    <AuthButton type="submit">Create account</AuthButton>
+                    <AuthButton loading={loading} type="submit">Create account</AuthButton>
                 </motion.div>
 
                 <Divider />
 
                 {/* GOOGLE */}
                 <motion.div variants={item}>
-                    <SocialAuthButton onClick={onGoogle}>
+                    <SocialAuthButton onClick={onGoogle} loading={loading}>
                         Continue with Google
                     </SocialAuthButton>
                 </motion.div>

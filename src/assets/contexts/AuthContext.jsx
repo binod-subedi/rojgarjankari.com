@@ -29,30 +29,29 @@ export const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setCurrentUser(user);
-
-                try {
-                    const userRef = doc(firestore, 'users', user.uid);
-                    const docSnap = await getDoc(userRef);
-
-                    if (docSnap.exists()) {
-                        setUserData(docSnap.data());
-                    } else {
-                        console.log("No such document.")
+                if (user.emailVerified) {
+                    try {
+                        const userRef = doc(firestore, 'users', user.uid);
+                        const docSnap = await getDoc(userRef);
+                        if (docSnap.exists()) {
+                            setUserData(docSnap.data());
+                        } else {
+                            console.log("No such document.");
+                            setUserData(null);
+                        }
+                    } catch (err) {
+                        console.error("Error fetching user", err);
                         setUserData(null);
                     }
-                } catch (err) {
-                    console.error("Error fetching user", err)
-                    setUserData(null);
                 }
             } else {
-                setCurrentUser(null)
+                setCurrentUser(null);
                 setUserData(null);
             }
-
-            setLoading(false)
+            setLoading(false);
         });
         return unsubscribe;
-    }, [refreshUserData]);
+    }, []);
 
     const value = {
         currentUser,

@@ -17,7 +17,8 @@ export const LoginForm = ({
     onGoogle,
     shake,
     isSuccess,
-    loginError
+    loginError,
+    loading
 }) => {
     const container = {
         hidden: {},
@@ -107,14 +108,14 @@ export const LoginForm = ({
 
                 {/* Submit */}
                 <motion.div variants={item}>
-                    <AuthButton type="submit">Sign In</AuthButton>
+                    <AuthButton loading={loading} type="submit">Sign In</AuthButton>
                 </motion.div>
 
                 <Divider />
 
                 {/* Google */}
                 <motion.div variants={item}>
-                    <SocialAuthButton onClick={onGoogle}>
+                    <SocialAuthButton onClick={onGoogle} loading={loading}>
                         Continue with Google
                     </SocialAuthButton>
                 </motion.div>

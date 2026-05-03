@@ -14,7 +14,7 @@ import { signInUser, signInWithGoogle } from "../configs/auth";
 import { loginSchema } from "../features/auth/validators/loginSchema";
 import { saveUserToFireStore, saveEmployerToFireStore } from "../configs/firestore";
 
-import { AuthHeader, AuthLayout } from "../components/auth";
+import { AuthHeader, AuthLayout, errorMessages } from "../components/auth";
 import { LoginForm } from "../features/auth/LoginForm";
 
 export const Login = () => {
@@ -27,6 +27,7 @@ export const Login = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [selectedRole, setSelectedRole] = useState(null);
     const [extraInfo, setExtraInfo] = useState("");
+    const [loading, setLoading] = useState(false)
 
     const {
         register,
@@ -48,6 +49,7 @@ export const Login = () => {
     if (isLoggedIn && !isRegistering) return <Navigate to="/" />;
 
     const onSubmit = async (data) => {
+        setLoading(true)
         try {
             const persistence = data.rememberMe
                 ? browserLocalPersistence
@@ -64,22 +66,17 @@ export const Login = () => {
             }
             setIsSuccess(true);
         } catch (err) {
-            // Firebase errors to friendly messages
-            let message = "Login failed. Please try again.";
-            if (err.code === "auth/user-not-found") {
-                message = "No account found with this email.";
-            } else if (err.code === "auth/wrong-password") {
-                message = "Incorrect password.";
-            } else if (err.code === "auth/too-many-requests") {
-                message = "Too many attempts. Try again later.";
-            }
+            const message = errorMessages[err.code] || "An unknown error occurred. Please try again.";
             setLoginError(message);
             setShake(true);
             setTimeout(() => setShake(false), 400);
+        } finally {
+            setLoading(false)
         }
     };
 
     const handleGoogleLogin = async () => {
+        setLoading(true)
         try {
             const { user, isNewUser } = await signInWithGoogle();
 
@@ -91,12 +88,14 @@ export const Login = () => {
             }
         } catch (err) {
             setLoginError("Google Sign-In failed.");
-            setIsRegistering(false);
+        } finally {
+            setLoading(false)
         }
     };
 
     const finalizeGoogleSignup = async () => {
         if (!needsRole || !selectedRole) return;
+        setLoading(true)
 
         try {
             if (selectedRole === "employer") {
@@ -117,11 +116,13 @@ export const Login = () => {
                 );
             }
 
-            await refreshUserData();
+            await refreshUserData(needsRole);
             setIsRegistering(false);
             setIsSuccess(true);
         } catch (error) {
             console.error("Finalize error:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -135,10 +136,10 @@ export const Login = () => {
             title={
                 <>
                     Simple hiring,<br />
-                    <span className="text-gray-400">done right</span>
+                    <span className="text-gray-400">streamlined for all</span>
                 </>
             }
-            subtitle="Manage recruitment, track applicants, and streamline your workflow."
+            subtitle="Streamline recruitment and opportunities for both employers and job seekers."
         >
             <AuthHeader
                 title="Sign in"
@@ -211,6 +212,7 @@ export const Login = () => {
                     shake={shake}
                     isSuccess={isSuccess}
                     loginError={loginError}
+                    loading={loading}
                 />
             )}
 

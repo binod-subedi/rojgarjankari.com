@@ -6,3 +6,5 @@ export { Companies } from './Companies'
 export { EmployerSignup } from './EmployerSignup'
 export { EmployerDashboard } from './EmployerDashboard';
 export { ResetPass } from './ResetPass';
+export { VerifyEmailPage } from './VerifyEmailPage'
+export { Error404 } from './Error404'
