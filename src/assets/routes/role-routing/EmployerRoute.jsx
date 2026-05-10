@@ -3,12 +3,13 @@ import { useAuth } from "../../contexts/AuthContext";
 import Spinner from "../../components/Spinner";
 
 export const EmployerRoute = () => {
-  const { currentUser, userData, loading } = useAuth();
+  const { userData, loading } = useAuth();
 
 
   if (loading) return <Spinner />;
+  if (!userData) return <Spinner />;
 
-  if (currentUser && userData.role === "user") return <Navigate to='/' />;
+  if (userData && userData.role === "user") return <Navigate to='/' />;
 
   return <Outlet />;
 };

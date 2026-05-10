@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true);
+    const [userError, setUserError] = useState('')
 
     const refreshUserData = useCallback(async (user = currentUser) => {
         if (!user) return null;
@@ -37,15 +38,18 @@ export const AuthProvider = ({ children }) => {
                         } else {
                             console.log("No such document.");
                             setUserData(null);
+                            setUserError("User Data Fetch Failed")
                         }
                     } catch (err) {
                         console.error("Error fetching user", err);
                         setUserData(null);
+                        setUserError("User Data Fetch Failed")
                     }
                 }
             } else {
                 setCurrentUser(null);
                 setUserData(null);
+                setUserError("User Data Fetch Failed")
             }
             setLoading(false);
         });
@@ -57,7 +61,8 @@ export const AuthProvider = ({ children }) => {
         userData,
         loading,
         isLoggedIn: !!currentUser,
-        refreshUserData
+        refreshUserData,
+        userError
     }
 
     return (

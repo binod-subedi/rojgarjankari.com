@@ -1,5 +1,6 @@
 import { firestore } from './firebase'
 import { doc, setDoc } from 'firebase/firestore'
+import { nanoid } from 'nanoid'
 
 export const saveUserToFireStore = async (uid, fullName, email, phone) => {
     try {
@@ -29,5 +30,16 @@ export const saveEmployerToFireStore = async (uid, fullName, email, companyName)
         })
     } catch (error) {
         console.error(error)
+    }
+}
+
+// Post a Job function
+export const jobPostFunc = async (jobData) => {
+    const jobId = `job_${nanoid()}`;
+    try {
+        const jobRef = doc(firestore, 'job', jobId)
+        await setDoc(jobRef, jobData)
+    } catch (err) {
+        console.error('Problem posting the job', err);
     }
 }
